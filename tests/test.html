@@ -3,7 +3,14 @@
 
 <body>
   <div style="width:50%;margin:100px;">
-		<ui-array-input name="whatever" placeholder="Placeholder" label="Education" data='["Hello, world", "My name is Jose", "How are you?", "Fuck you", "Yes, you"]'></ui-array-input>
-		<ui-array-input name="whatever" placeholder="Placeholder" label="Education" data='[]'></ui-array-input>
+		<form action="/tests/test.html">
+			<ui-array-input type="text" name="whatever" placeholder="Placeholder" label="Education" value='["Hello, world", "My name is Jose", "How are you?", "Fuck you", "Yes, you"]'></ui-array-input>
+			<input type="text" name="NAME" value="VALUE">
+			<input type="text" name="NAME" value="VALUE">
+			<input type="text" name="NAME" value="VALUE">
+			<!--<ui-array-input name="whatever" placeholder="Placeholder" label="Education" data='[]'></ui-array-input>-->
+			<!--<ui-array-input name="whatever" placeholder="Placeholder" label="Education" data='[]'></ui-array-input>-->
+			<button type="submit">SUBMIT</button>
+		</form>
   </div>
 </body>

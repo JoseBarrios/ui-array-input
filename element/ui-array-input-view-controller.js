@@ -4,23 +4,26 @@ const uiArrayInputTemplate = uiArrayInputDocument.ownerDocument.querySelector('#
 class UIArrayInput extends HTMLElement{
 
 	static get observedAttributes(){
-		return ['name', 'placeholder', 'label', 'data'];
+		return ['name', 'placeholder', 'label', 'value'];
 	}
 
   constructor(model){
     super();
 		this.model = model || {};
 		const view = document.importNode(uiArrayInputTemplate.content, true);
-		this.appendChild(view);
-		//this.shadowRoot = this.attachShadow({mode: 'open'});
-		//this.shadowRoot.appendChild(view);
+		this.shadowRoot = this.attachShadow({mode: 'open'});
+		this.shadowRoot.appendChild(view);
+		//this.appendChild(view);
+		this.addEventListener('submit', e => { console.log('SUBNIT', e) })
 	}
 
   connectedCallback() {
-		this.$label = this.querySelector('label');
-		this.$ol = this.querySelector('ol');
-		//this.$label = this.shadowRoot.querySelector('label');
+		this.$label = this.shadowRoot.querySelector('label');
+		this.$form = this.shadowRoot.querySelector('form');
 		//this.$ol = this.shadowRoot.querySelector('ol');
+
+		//this.$label = this.querySelector('label');
+		//this.$ol = this.querySelector('ol');
 		this._updateRendering();
   }
 
@@ -31,7 +34,7 @@ class UIArrayInput extends HTMLElement{
   attributeChangedCallback(attrName, oldVal, newVal) {
 		console.log('ATTRIBUTE', attrName, oldVal, newVal)
 		switch(attrName){
-			case 'data':
+			case 'value':
 				this.model[attrName] = JSON.parse(newVal);
 				if(!this.model[attrName].length){
 					this.model[attrName].push('');
@@ -51,10 +54,10 @@ class UIArrayInput extends HTMLElement{
 
 		if(this.$label && this.model.label){ this.$label.innerText = this.model.label; }
 
-		//IF THIS.MODEL.DATA WE SHOULD CREATE ONE INPUT
-		if(this.$ol && this.model.data){
-			this.$ol.innerHTML = '';
-			this.model.data.forEach((inputText, index) => {
+		//IF THIS.MODEL.value WE SHOULD CREATE ONE INPUT
+		if(this.$label && this.model.value){
+			//this.$ol.innerHTML = '';
+			this.model.value.forEach((inputText, index) => {
 				let container = document.createElement('div');
 				container.classList.add('col-lg-12')
 				container.classList.add('col-md-12')
@@ -73,12 +76,13 @@ class UIArrayInput extends HTMLElement{
 
 				let deleteButton = document.createElement('button');
 				deleteButton.addEventListener('click', e => { this.deleteInput(e); });
+				deleteButton.setAttribute("tabIndex", "-1");
 				deleteButton.classList.add('delete')
 				deleteButton.innerHTML = '&#10005;';
 
 				container.appendChild(input);
 				container.appendChild(deleteButton);
-				this.$ol.appendChild(container);
+				this.$label.appendChild(container);
 			})
 
 			let addButton = document.createElement('button');
@@ -88,36 +92,41 @@ class UIArrayInput extends HTMLElement{
 			addButton.classList.add('col-sm-12')
 			addButton.classList.add('add')
 			addButton.innerHTML = 'ADD';
-			this.$ol.appendChild(addButton);
+			this.$label.appendChild(addButton);
 		}
 	}
 
 	addInput(e){
+		e.stopPropagation()
 		e.preventDefault();
-		console.log('add')
-		this.model.data.push('');
-		this.setAttribute('data', JSON.stringify(this.model.data))
+		this.model.value.push('');
+		this.setAttribute('value', JSON.stringify(this.model.value))
 		this._updateRendering();
+
+		this.$inputs = this.shadowRoot.querySelectorAll('input');
+		this.numInputs = this.$inputs.length-1;
+		let recentlyAddedInput = this.$inputs[this.numInputs]
+		recentlyAddedInput.focus();
 	}
 
 	editInput(e, index, done){
-		e.stopPropagation()
-		e.preventDefault();
-		console.log('edit')
-		this.model.data[index] = e.target.value;
-		if(done){ this.setAttribute('data', JSON.stringify(this.model.data)) }
+		this.model.value[index] = e.target.value;
+		if(done){ this.setAttribute('value', JSON.stringify(this.model.value)) }
 	}
 
 	deleteInput(e){
-		this.model.data.forEach((item, index) => {
+		e.stopPropagation()
+		e.preventDefault();
+		this.model.value.forEach((item, index) => {
 			if(item === e.target.previousSibling.value){
-				this.model.data.splice(index,1);
-				this.setAttribute('data', JSON.stringify(this.model.data))
+				this.model.value.splice(index,1);
+				this.setAttribute('value', JSON.stringify(this.model.value))
 				this._updateRendering();
 			}
 		})
 	}
 
+	submit(){ this.$form.submit(); }
 
 
 
