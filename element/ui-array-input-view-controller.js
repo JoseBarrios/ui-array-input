@@ -28,8 +28,20 @@ class UIArrayInput extends HTMLElement{
   attributeChangedCallback(attrName, oldVal, newVal) {
 		switch(attrName){
 			case 'value':
-				this.model[attrName] = JSON.parse(newVal);
-				if(!this.model[attrName].length){
+				if(newVal && newVal !== ''){
+					try{
+						this.model[attrName] = JSON.parse(newVal);
+						if(!this.model[attrName].length){
+							this.model[attrName].push('');
+						}
+					}
+					catch(error){
+						console.warn('Warning: ui-array-input invalid value, replaced with empty array:', error)
+						this.model[attrName] = [];
+						this.model[attrName].push('');
+					}
+				} else if(newVal === ''){
+					this.model[attrName] = [];
 					this.model[attrName].push('');
 				}
 				break;
