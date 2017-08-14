@@ -11,13 +11,16 @@ class UIArrayInput extends HTMLElement{
     super();
 		this.model = model || {};
 		const view = document.importNode(uiArrayInputTemplate.content, true);
-		this.shadowRoot = this.attachShadow({mode: 'open'});
-		this.shadowRoot.appendChild(view);
+		this.appendChild(view);
+		//this.shadowRoot = this.attachShadow({mode: 'open'});
+		//this.shadowRoot.appendChild(view);
 	}
 
   connectedCallback() {
-		this.$label = this.shadowRoot.querySelector('label');
-		this.$ol = this.shadowRoot.querySelector('ol');
+		this.$label = this.querySelector('label');
+		this.$ol = this.querySelector('ol');
+		//this.$label = this.shadowRoot.querySelector('label');
+		//this.$ol = this.shadowRoot.querySelector('ol');
 		this._updateRendering();
   }
 
