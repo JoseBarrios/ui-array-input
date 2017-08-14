@@ -26,7 +26,6 @@ class UIArrayInput extends HTMLElement{
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log(attrName,oldVal,newVal)
 		switch(attrName){
 			case 'value':
 				this.model[attrName] = JSON.parse(newVal);

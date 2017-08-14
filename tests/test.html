@@ -2,11 +2,11 @@
 <link rel='import' href='../element/index.html'>
 
 <body>
-  <div style="width:50%;margin:100px;">
+  <div style="width:50%;">
 		<form action="/tests/test.html">
 			<fieldset>
 				<legend> Education Requirements </legend>
-				<ui-array-input name="whatever" label="education" placeholder="Placeholder" value='["Hello, world", "My name is Jose"]'></ui-array-input>
+				<!--<ui-array-input name="whatever" label="education" placeholder="Placeholder" value='["Hello, world", "My name is Jose"]'></ui-array-input>-->
 				<ui-array-input name="whatever" placeholder="Placeholder" value='["Hello, world", "My name is Jose"]'></ui-array-input>
 			</fieldset>
 			<button style="width:710px; height:37px; margin-top:50px" type="submit">SUBMIT</button>
@@ -16,18 +16,19 @@
 <script>
 	const $form = document.querySelector('form');
 	const $customElement = document.querySelector('ui-array-input');
-	console.log($form, $customElement)
 
 	let intercepted = false;
 	$form.onsubmit = function(e){
-		//Only called if submit has not been
-		//already intercepted
+		//Only called if submit has not been already intercepted
 		if(intercepted === false){
+			//Prevent submission
 			e.preventDefault();
+			//Add shadowDOM forms
 			let input = document.createElement('input');
 			input.value = $customElement.getAttribute('value');
 			input.name = $customElement.getAttribute('name');
 			$form.appendChild(input);
+			//Resubmit with new inputs
 			intercepted = true;
 			e.target.submit();
 		}
