@@ -42,6 +42,18 @@ class UIArrayInput extends HTMLElement{
 	get shadowRoot(){return this._shadowRoot;}
 	set shadowRoot(value){ this._shadowRoot = value}
 
+	get value(){return this.getAttribute('value');}
+	set value(value){ this.setAttribute('value', value)}
+
+	get name(){return this.getAttribute('name');}
+	set name(value){ this.setAttribute('name', value)}
+
+
+	get label(){return this.getAttribute('label');}
+	set label(value){ this.setAttribute('label', value)}
+
+	get placeholder(){return this.getAttribute('placeholder');}
+	set placeholder(value){ this.setAttribute('placeholder', value)}
 
 	_updateRendering(){
 		if(this.$label && this.model.label){ this.$label.innerHTML = this.model.label; }

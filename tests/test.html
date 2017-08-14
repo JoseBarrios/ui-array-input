@@ -25,8 +25,9 @@
 			e.preventDefault();
 			//Add shadowDOM forms
 			let input = document.createElement('input');
-			input.value = $customElement.getAttribute('value');
-			input.name = $customElement.getAttribute('name');
+			input.value = $customElement.value;
+			input.name = $customElement.name;
+			input.type = "hidden";
 			$form.appendChild(input);
 			//Resubmit with new inputs
 			intercepted = true;
