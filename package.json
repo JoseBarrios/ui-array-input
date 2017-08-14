@@ -1,6 +1,6 @@
 {
   "name": "@josebarrios/ui-array-input",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A custom element for array-like inputs",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,5 @@
     "webpack": "^3.3.0",
     "yarn": "^0.27.5"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
