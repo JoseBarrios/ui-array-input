@@ -18,6 +18,14 @@ class UIArrayInput extends HTMLElement{
   connectedCallback() {
 		this.$container = this.shadowRoot.querySelector('#container');
 		this.$label = this.shadowRoot.querySelector('label');
+
+		if(!this.model.value || !this.getAttribute('value')){
+			this.model.value = '';
+			this.setAttribute('value', '');
+		}
+
+
+
 		this._updateRendering();
   }
 
@@ -26,6 +34,7 @@ class UIArrayInput extends HTMLElement{
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
+		console.log(attrName, oldVal, newVal);
 		switch(attrName){
 			case 'value':
 				if(newVal && newVal !== ''){
