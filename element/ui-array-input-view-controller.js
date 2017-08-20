@@ -62,7 +62,7 @@ class UIArrayInput extends HTMLElement{
 	get shadowRoot(){return this._shadowRoot;}
 	set shadowRoot(value){ this._shadowRoot = value}
 
-	get value(){return this.getAttribute('value');}
+	get value(){return JSON.parse(this.getAttribute('value'));}
 	set value(value){ this.setAttribute('value', value)}
 
 	get name(){return this.getAttribute('name');}

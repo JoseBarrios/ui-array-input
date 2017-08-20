@@ -18,6 +18,10 @@
 	const $form = document.querySelector('form');
 	const $customElement = document.querySelector('ui-array-input');
 
+	$customElement.addEventListener('update', (e)=>{
+		console.log('TEST UPDATED CAUGHT', e.target.value)
+	})
+
 	let intercepted = false;
 	$form.onsubmit = function(e){
 		//Only called if submit has not been already intercepted
