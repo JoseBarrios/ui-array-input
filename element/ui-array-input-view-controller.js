@@ -69,7 +69,6 @@ class UIArrayInput extends HTMLElement{
 	get name(){return this.getAttribute('name');}
 	set name(value){ this.setAttribute('name', value)}
 
-
 	get label(){return this.getAttribute('label');}
 	set label(value){ this.setAttribute('label', value)}
 
@@ -117,6 +116,7 @@ class UIArrayInput extends HTMLElement{
 			addButton.classList.add('col-md-12')
 			addButton.classList.add('col-sm-12')
 			addButton.classList.add('add')
+			//addButton.innerHTML = this.placeholder;
 			addButton.innerHTML = 'ADD';
 			this.$container.appendChild(addButton);
 		}
