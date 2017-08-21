@@ -14,7 +14,7 @@ class UIArrayInput extends HTMLElement{
 		this.shadowRoot = this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(view);
 
-		this.updateEvent = new CustomEvent('ui-array-input-update', {bubbles:false, cancelable:false});
+		this.updateEvent = new CustomEvent('update', {bubbles:false, cancelable:true});
 	}
 
   connectedCallback() {
