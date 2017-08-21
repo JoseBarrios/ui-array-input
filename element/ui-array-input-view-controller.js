@@ -13,7 +13,8 @@ class UIArrayInput extends HTMLElement{
 		const view = document.importNode(uiArrayInputTemplate.content, true);
 		this.shadowRoot = this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(view);
-		this.updateEvent = new Event('update')
+
+		this.updateEvent = new CustomEvent('update', {bubbles:false, cancelable:false});
 	}
 
   connectedCallback() {
@@ -57,6 +58,7 @@ class UIArrayInput extends HTMLElement{
 				this.model[attrName] = newVal;
 		}
 		this._updateRendering();
+		this.dispatchEvent(this.updateEvent);
   }
 
 	get shadowRoot(){return this._shadowRoot;}
@@ -119,8 +121,6 @@ class UIArrayInput extends HTMLElement{
 			addButton.innerHTML = 'ADD';
 			this.$container.appendChild(addButton);
 		}
-
-		this.dispatchEvent(this.updateEvent);
 
 	}
 
