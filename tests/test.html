@@ -7,8 +7,7 @@
 			<!--<fieldset>-->
 				<!--<legend> Education Requirements </legend>-->
 				<ui-array-input name="one" placeholder="first" value='["one", "1", "first"]'></ui-array-input>
-				<p>DIVIDER</p>
-				<ui-array-input name="two" placeholder="second" value='["two", "2", "second"]'></ui-array-input>
+				<!--<ui-array-input name="two" placeholder="second" value='["two", "2", "second"]'></ui-array-input>-->
 				<!--<ui-array-input name="whatever" placeholder="Placeholder" value='Hello'></ui-array-input>-->
 				<!--<ui-array-input name="whatever" placeholder="Placeholder" ></ui-array-input>-->
 			<!--</fieldset>-->
@@ -20,7 +19,7 @@
 	const $form = document.querySelector('form');
 	const $customElement = document.querySelector('ui-array-input');
 
-	$customElement.addEventListener('update', (e)=>{
+	$customElement.addEventListener('value-updated', (e)=>{
 		console.log('TEST UPDATED CAUGHT', e.target.value)
 	})
 

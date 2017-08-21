@@ -39,7 +39,6 @@ class UIArrayInput extends HTMLElement{
 					try{
 						this.model[attrName] = JSON.parse(newVal);
 						if(!this.model[attrName].length){
-							this.dispatchEvent(new CustomEvent('value-updated', {detail: {value: this.model.value}, bubbles:false}));
 							this.model[attrName].push('');
 						}
 					}
@@ -52,7 +51,10 @@ class UIArrayInput extends HTMLElement{
 					this.model[attrName] = [];
 					this.model[attrName].push('');
 				}
+				console.log('FIRED EVENT')
+				this.dispatchEvent(new CustomEvent('value-updated', {detail: {value: this.model.value}, bubbles:false}));
 				break;
+
 			default:
 				this.model[attrName] = newVal;
 		}
