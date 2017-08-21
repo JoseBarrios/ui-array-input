@@ -13,7 +13,7 @@ class UIArrayInput extends HTMLElement{
 		const view = document.importNode(uiArrayInputTemplate.content, true);
 		this.shadowRoot = this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(view);
-		this.defaultEventName = 'input';
+		this.defaultEventName = 'change';
 	}
 
   connectedCallback() {
