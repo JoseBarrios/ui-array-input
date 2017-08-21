@@ -121,7 +121,7 @@ class UIArrayInput extends HTMLElement{
 			this.$container.appendChild(addButton);
 		}
 
-		this.dispatchEvent(this.updateEvent);
+		//this.dispatchEvent(this.updateEvent);
 	}
 
 	addInput(e){
