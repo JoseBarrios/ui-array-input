@@ -13,6 +13,7 @@ class UIArrayInput extends HTMLElement{
 		const view = document.importNode(uiArrayInputTemplate.content, true);
 		this.shadowRoot = this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(view);
+		this.defaultEventName = 'input';
 	}
 
   connectedCallback() {
@@ -32,7 +33,6 @@ class UIArrayInput extends HTMLElement{
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log(attrName, oldVal, newVal);
 		switch(attrName){
 			case 'value':
 				if(newVal && newVal !== ''){
@@ -51,8 +51,7 @@ class UIArrayInput extends HTMLElement{
 					this.model[attrName] = [];
 					this.model[attrName].push('');
 				}
-				console.log('FIRED EVENT')
-				this.dispatchEvent(new CustomEvent('updated', {detail: {value: this.model.value}, bubbles:false}));
+				this.dispatchEvent(new CustomEvent(this.defaultEventName, {detail: {value: this.model.value}, bubbles:false}));
 				break;
 
 			default:
