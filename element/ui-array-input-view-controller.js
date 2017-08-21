@@ -4,7 +4,7 @@ const uiArrayInputTemplate = uiArrayInputDocument.ownerDocument.querySelector('#
 class UIArrayInput extends HTMLElement{
 
 	static get observedAttributes(){
-		return ['label', 'placeholder', 'value'];
+		return ['placeholder', 'value'];
 	}
 
   constructor(model){
@@ -58,6 +58,7 @@ class UIArrayInput extends HTMLElement{
 				this.model[attrName] = newVal;
 		}
 		this._updateRendering();
+		this.dispatchEvent(this.updateEvent);
   }
 
 	get shadowRoot(){return this._shadowRoot;}
@@ -121,7 +122,6 @@ class UIArrayInput extends HTMLElement{
 			this.$container.appendChild(addButton);
 		}
 
-		//this.dispatchEvent(this.updateEvent);
 	}
 
 	addInput(e){
