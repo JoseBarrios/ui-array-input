@@ -52,7 +52,7 @@ class UIArrayInput extends HTMLElement{
 					this.model[attrName].push('');
 				}
 				console.log('FIRED EVENT')
-				this.dispatchEvent(new CustomEvent('value-updated', {detail: {value: this.model.value}, bubbles:false}));
+				this.dispatchEvent(new CustomEvent('updated', {detail: {value: this.model.value}, bubbles:false}));
 				break;
 
 			default:
