@@ -117,7 +117,7 @@ class UIArrayInput extends HTMLElement{
 			addButton.classList.add('col-sm-12')
 			addButton.classList.add('add')
 			//addButton.innerHTML = this.placeholder;
-			addButton.innerHTML = 'ADD';
+			addButton.innerHTML = 'ADD ITEM';
 			this.$container.appendChild(addButton);
 		}
 
