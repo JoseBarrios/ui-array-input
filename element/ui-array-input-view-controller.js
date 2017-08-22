@@ -13,7 +13,7 @@ class UIArrayInput extends HTMLElement{
 		const view = document.importNode(uiArrayInputTemplate.content, true);
 		this.shadowRoot = this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(view);
-		this.defaultEventName = 'change';
+		this.defaultEventName = 'update';
 	}
 
   connectedCallback() {
@@ -51,7 +51,7 @@ class UIArrayInput extends HTMLElement{
 					this.model[attrName] = [];
 					this.model[attrName].push('');
 				}
-				this.dispatchEvent(new CustomEvent(this.defaultEventName, {detail: {value: this.model.value}, bubbles:false}));
+				this._updateEvent();
 				break;
 
 			default:
@@ -74,6 +74,10 @@ class UIArrayInput extends HTMLElement{
 
 	get placeholder(){return this.getAttribute('placeholder');}
 	set placeholder(value){ this.setAttribute('placeholder', value)}
+
+	_updateEvent(){
+		this.dispatchEvent(new CustomEvent('update', {detail: this.model.value, bubbles:false }));
+	}
 
 	_updateRendering(){
 		if(this.$label && this.model.label){ this.$label.innerHTML = this.model.label; }
