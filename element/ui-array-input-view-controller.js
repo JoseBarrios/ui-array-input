@@ -76,7 +76,9 @@ class UIArrayInput extends HTMLElement{
 	set placeholder(value){ this.setAttribute('placeholder', value)}
 
 	_updateEvent(){
-		this.dispatchEvent(new CustomEvent('update', {detail: this.model.value, bubbles:false }));
+		if(this.model.value !== [""]){
+				this.dispatchEvent(new CustomEvent('update', {detail: this.model.value, bubbles:false }));
+		}
 	}
 
 	_updateRendering(){
