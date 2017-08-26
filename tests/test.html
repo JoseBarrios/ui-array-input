@@ -1,4 +1,4 @@
-<script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.1/webcomponents-lite.js'></script>
+<!--<script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.1/webcomponents-lite.js'></script>-->
 <title> ui-array-input </title>
 <link rel='import' href='../element/index.html'>
 
@@ -8,6 +8,7 @@
 		<p>Test</p>
   </div>
 </body>
+
 <script>
 const $arrayInput = document.querySelector('ui-array-input');
 const $p = document.querySelector('p');
@@ -16,5 +17,4 @@ $arrayInput.addEventListener('update', (e)=>{
 	console.log('TEST UPDATED CAUGHT', e.detail)
 	$p.innerHTML = e.detail.string;
 })
-
 </script>

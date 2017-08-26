@@ -83,6 +83,15 @@ class UIArrayInput extends HTMLElement{
 	get placeholder(){return this.getAttribute('placeholder');}
 	set placeholder(value){ this.setAttribute('placeholder', value)}
 
+	blurInput(e){
+		if(e.target.value === ''){
+			this.model.value.pop();
+		}
+		this._updateEvent(e);
+	}
+
+
+
 	_updateEvent(){
 		if(this.model.value !== [""]){
 			let value = {};
@@ -92,8 +101,6 @@ class UIArrayInput extends HTMLElement{
 			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
 		}
 	}
-
-	blurInput(e){ this._updateEvent(e); }
 
 	_updateRendering(){
 		//IF THIS.MODEL.value WE SHOULD CREATE ONE INPUT
