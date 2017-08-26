@@ -34,7 +34,6 @@ class UIArrayInput extends HTMLElement{
   disconnectedCallback() { console.log('disconnected'); }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
-		console.log('ATTRNAME', attrName)
 		switch(attrName){
 			case 'value':
 				if(newVal && newVal !== ''){
@@ -98,14 +97,12 @@ class UIArrayInput extends HTMLElement{
 			let value = {};
 			value.string = this.model.value.join('; and\n');
 			value.array = this.model.value;
-			console.log(value)
 			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
 		}
 	}
 
 	_updateRendering(e){
 		//IF THIS.MODEL.value WE SHOULD CREATE ONE INPUT
-		console.log(this.$addButton, this.model.buttonText)
 		if(this.$addButton && this.model.buttonText){
 			this.$addButton.innerText = this.model.buttonText;
 		}
@@ -171,7 +168,6 @@ class UIArrayInput extends HTMLElement{
 		e.preventDefault();
 		e.stopPropagation()
 		this.model.value[index] = e.target.value;
-		console.log(this.model)
 	}
 
 	deleteInput(e){
