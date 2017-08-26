@@ -83,7 +83,6 @@ class UIArrayInput extends HTMLElement{
 		this.setAttribute('button-text', value);
 	}
 
-
 	get placeholder(){return this.getAttribute('placeholder');}
 	set placeholder(value){ this.setAttribute('placeholder', value)}
 
@@ -173,11 +172,14 @@ class UIArrayInput extends HTMLElement{
 	deleteInput(e){
 		e.stopPropagation()
 		e.preventDefault();
-		this.model.value.forEach((item, index) => {
-			if(item === e.target.previousSibling.value){
+		let deleteButtons = this.querySelectorAll('.ui-array-input-item-delete');
+		let $inputs = this.querySelectorAll('input');
+		deleteButtons.forEach((deleteButton, index) => {
+			if(e.target === deleteButton){
 				this.model.value.splice(index,1);
-				this.setAttribute('value', JSON.stringify(this.model.value))
+				$inputs[index].remove();
 				this._updateRendering();
+				this._updateEvent();
 			}
 		})
 	}
