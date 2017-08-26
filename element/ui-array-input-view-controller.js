@@ -4,7 +4,7 @@ const uiArrayInputTemplate = uiArrayInputDocument.ownerDocument.querySelector('#
 class UIArrayInput extends HTMLElement{
 
 	static get observedAttributes(){
-		return ['placeholder', 'value'];
+		return ['placeholder', 'value', 'button-text'];
 	}
 
   constructor(model){
@@ -22,6 +22,7 @@ class UIArrayInput extends HTMLElement{
 		//this.$container = this.shadowRoot.querySelector('#ui-array-input-container');
 		//LIGHT DOM
 		this.$container = this.querySelector('#ui-array-input-container');
+		this.$addButton = this.querySelector('.ui-array-input-button-add');
 		if(!this.model.value || !this.getAttribute('value')){
 			this.model.value = '';
 			this.setAttribute('value', '');
@@ -33,6 +34,7 @@ class UIArrayInput extends HTMLElement{
   disconnectedCallback() { console.log('disconnected'); }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
+		console.log('ATTRNAME', attrName)
 		switch(attrName){
 			case 'value':
 				if(newVal && newVal !== ''){
@@ -54,6 +56,10 @@ class UIArrayInput extends HTMLElement{
 				this._updateEvent();
 				break;
 
+			case 'button-text':
+				this.model.buttonText = newVal;
+				break;
+
 			default:
 				this.model[attrName] = newVal;
 		}
@@ -72,18 +78,19 @@ class UIArrayInput extends HTMLElement{
 		this.setAttribute('value', value)
 	}
 
-	get name(){return this.getAttribute('name');}
-	set name(value){ this.setAttribute('name', value)}
+	get buttonText(){return this.model.buttonText}
+	set buttonText(value){
+		this.model.buttonText = value;
+		this.setAttribute('button-text', value);
+	}
 
-	get label(){return this.getAttribute('label');}
-	set label(value){ this.setAttribute('label', value)}
 
 	get placeholder(){return this.getAttribute('placeholder');}
 	set placeholder(value){ this.setAttribute('placeholder', value)}
 
 	blurInput(e){
 		if(e.target.value === ''){ this.model.value.pop(); }
-		this._updateEvent(e);
+		this._updateEvent();
 	}
 
 	_updateEvent(){
@@ -96,8 +103,13 @@ class UIArrayInput extends HTMLElement{
 		}
 	}
 
-	_updateRendering(){
+	_updateRendering(e){
 		//IF THIS.MODEL.value WE SHOULD CREATE ONE INPUT
+		console.log(this.$addButton, this.model.buttonText)
+		if(this.$addButton && this.model.buttonText){
+			this.$addButton.innerText = this.model.buttonText;
+		}
+
 		if(this.$container && this.model.value){
 			this.$container.innerHTML = '';
 			this.model.value.forEach((inputText, index) => {
@@ -135,7 +147,7 @@ class UIArrayInput extends HTMLElement{
 			addButton.classList.add('col-md-12');
 			addButton.classList.add('col-sm-12');
 			addButton.classList.add('ui-array-input-button-add');
-			addButton.innerHTML = 'ADD ITEM';
+			addButton.innerHTML = this.model.buttonText || 'ADD ITEM';
 			this.$container.appendChild(addButton);
 		}
 	}
