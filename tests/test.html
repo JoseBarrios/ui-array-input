@@ -1,44 +1,17 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.1/webcomponents-lite.js'></script>
+<title> ui-array-input </title>
 <link rel='import' href='../element/index.html'>
 
 <body>
-  <div style="width:50%;background-color:white">
-		<form action="/tests/test.html">
-			<!--<fieldset>-->
-				<!--<legend> Education Requirements </legend>-->
-				<ui-array-input></ui-array-input>
-				<!--<ui-array-input name="one" placeholder="first" value='["one", "1", "first"]'></ui-array-input>-->
-				<!--<ui-array-input name="two" placeholder="second" value='["two", "2", "second"]'></ui-array-input>-->
-				<!--<ui-array-input name="whatever" placeholder="Placeholder" value='Hello'></ui-array-input>-->
-				<!--<ui-array-input name="whatever" placeholder="Placeholder" ></ui-array-input>-->
-			<!--</fieldset>-->
-			<button style="width:710px; height:37px; margin-top:50px" type="submit">SUBMIT</button>
-		</form>
+	<div style="width:50%;background-color:white">
+		<ui-array-input></ui-array-input>
   </div>
 </body>
 <script>
-	const $form = document.querySelector('form');
-	const $customElement = document.querySelector('ui-array-input');
+	const $arrayInput = document.querySelector('ui-array-input');
 
-	$customElement.addEventListener('update', (e)=>{
-		console.log('TEST UPDATED CAUGHT', e.target.value)
+	$arrayInput.addEventListener('update', (e)=>{
+		console.log('TEST UPDATED CAUGHT', e.detail)
 	})
 
-	let intercepted = false;
-	$form.onsubmit = function(e){
-		//Only called if submit has not been already intercepted
-		if(intercepted === false){
-			//Prevent submission
-			e.preventDefault();
-			//Add shadowDOM forms
-			let input = document.createElement('input');
-			input.value = $customElement.value;
-			input.name = $customElement.name;
-			input.type = "hidden";
-			$form.appendChild(input);
-			//Resubmit with new inputs
-			intercepted = true;
-			e.target.submit();
-		}
-	}
 </script>

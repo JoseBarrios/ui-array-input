@@ -11,14 +11,19 @@ class UIArrayInput extends HTMLElement{
     super();
 		this.model = model || {};
 		const view = document.importNode(uiArrayInputTemplate.content, true);
-		this.shadowRoot = this.attachShadow({mode: 'open'});
-		this.shadowRoot.appendChild(view);
-		this.defaultEventName = 'update';
+		this.appendChild(view);
+
+		//SHADOW ROOT
+		//this.shadowRoot = this.attachShadow({mode: 'open'});
+		//this.shadowRoot.appendChild(view);
+
 	}
 
   connectedCallback() {
-		this.$container = this.shadowRoot.querySelector('#container');
-		this.$label = this.shadowRoot.querySelector('label');
+		//SHADOW ROOT
+		//this.$container = this.shadowRoot.querySelector('#ui-array-input-container');
+		//LIGHT DOM
+		this.$container = this.querySelector('#ui-array-input-container');
 
 		if(!this.model.value || !this.getAttribute('value')){
 			this.model.value = '';
@@ -63,8 +68,15 @@ class UIArrayInput extends HTMLElement{
 	get shadowRoot(){return this._shadowRoot;}
 	set shadowRoot(value){ this._shadowRoot = value}
 
-	get value(){return JSON.parse(this.getAttribute('value'));}
-	set value(value){ this.setAttribute('value', value)}
+
+	get value(){
+		let value = this.model.value;
+		return value;
+	}
+	set value(value){
+		this.model.value = value;
+		this.setAttribute('value', value)
+	}
 
 	get name(){return this.getAttribute('name');}
 	set name(value){ this.setAttribute('name', value)}
@@ -77,14 +89,15 @@ class UIArrayInput extends HTMLElement{
 
 	_updateEvent(){
 		if(this.model.value !== [""]){
-				this.dispatchEvent(new CustomEvent('update', {detail: this.model.value, bubbles:false }));
+			let value = {};
+			value.string = this.model.value.toString();
+			value.array = this.model.value;
+			console.log('VALUE', value)
+			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
 		}
 	}
 
 	_updateRendering(){
-		if(this.$label && this.model.label){ this.$label.innerHTML = this.model.label; }
-		else if(this.$label){ this.$label.hidden = 'true'; }
-
 		//IF THIS.MODEL.value WE SHOULD CREATE ONE INPUT
 		if(this.$container && this.model.value){
 			this.$container.innerHTML = '';
@@ -95,10 +108,11 @@ class UIArrayInput extends HTMLElement{
 				inputContainer.classList.add('col-sm-12')
 
 				let input = document.createElement('input');
-				input.placeholder = this.model.placeholder;
+				input.placeholder = this.model.placeholder || "Item";
 				input.name = this.getAttribute('name');
 				input.value = inputText;
 				input.type = 'text';
+				input.classList.add('ui-array-input-item')
 				input.classList.add('col-lg-12')
 				input.classList.add('col-md-12')
 				input.classList.add('col-sm-12')
@@ -108,7 +122,7 @@ class UIArrayInput extends HTMLElement{
 				let deleteButton = document.createElement('button');
 				deleteButton.addEventListener('click', e => { this.deleteInput(e); });
 				deleteButton.setAttribute("tabIndex", "-1");
-				deleteButton.classList.add('delete')
+				deleteButton.classList.add('ui-array-input-item-delete')
 				deleteButton.innerHTML = '&#10005;';
 
 				inputContainer.appendChild(input);
@@ -117,12 +131,11 @@ class UIArrayInput extends HTMLElement{
 			})
 
 			let addButton = document.createElement('button');
-			addButton.addEventListener('click', e => { this.addInput(e) })
-			addButton.classList.add('col-lg-12')
-			addButton.classList.add('col-md-12')
-			addButton.classList.add('col-sm-12')
-			addButton.classList.add('add')
-			//addButton.innerHTML = this.placeholder;
+			addButton.addEventListener('click', e => { this.addInput(e) });
+			addButton.classList.add('col-lg-12');
+			addButton.classList.add('col-md-12');
+			addButton.classList.add('col-sm-12');
+			addButton.classList.add('ui-array-input-button-add');
 			addButton.innerHTML = 'ADD ITEM';
 			this.$container.appendChild(addButton);
 		}
@@ -136,15 +149,19 @@ class UIArrayInput extends HTMLElement{
 		this.setAttribute('value', JSON.stringify(this.model.value))
 		this._updateRendering();
 
-		this.$inputs = this.shadowRoot.querySelectorAll('input');
+		this.$inputs = this.querySelectorAll('input');
+		//this.$inputs = this.shadowRoot.querySelectorAll('input');
+
 		this.numInputs = this.$inputs.length-1;
 		let recentlyAddedInput = this.$inputs[this.numInputs]
 		recentlyAddedInput.focus();
 	}
 
 	editInput(e, index, done){
+		e.preventDefault();
+		e.stopPropagation()
 		this.model.value[index] = e.target.value;
-		if(done){ this.setAttribute('value', JSON.stringify(this.model.value)) }
+		console.log(this.model)
 	}
 
 	deleteInput(e){
