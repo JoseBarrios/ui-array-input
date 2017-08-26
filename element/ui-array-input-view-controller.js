@@ -30,9 +30,7 @@ class UIArrayInput extends HTMLElement{
 		this._updateRendering();
   }
 
-  disconnectedCallback() {
-    console.log('disconnected');
-  }
+  disconnectedCallback() { console.log('disconnected'); }
 
   attributeChangedCallback(attrName, oldVal, newVal) {
 		switch(attrName){
@@ -84,13 +82,9 @@ class UIArrayInput extends HTMLElement{
 	set placeholder(value){ this.setAttribute('placeholder', value)}
 
 	blurInput(e){
-		if(e.target.value === ''){
-			this.model.value.pop();
-		}
+		if(e.target.value === ''){ this.model.value.pop(); }
 		this._updateEvent(e);
 	}
-
-
 
 	_updateEvent(){
 		if(this.model.value !== [""]){
@@ -144,7 +138,6 @@ class UIArrayInput extends HTMLElement{
 			addButton.innerHTML = 'ADD ITEM';
 			this.$container.appendChild(addButton);
 		}
-
 	}
 
 	addInput(e){
