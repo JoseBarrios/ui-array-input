@@ -5,13 +5,16 @@
 <body>
 	<div style="width:50%;background-color:white">
 		<ui-array-input></ui-array-input>
+		<p>Test</p>
   </div>
 </body>
 <script>
-	const $arrayInput = document.querySelector('ui-array-input');
+const $arrayInput = document.querySelector('ui-array-input');
+const $p = document.querySelector('p');
 
-	$arrayInput.addEventListener('update', (e)=>{
-		console.log('TEST UPDATED CAUGHT', e.detail)
-	})
+$arrayInput.addEventListener('update', (e)=>{
+	console.log('TEST UPDATED CAUGHT', e.detail)
+	$p.innerHTML = e.detail.string;
+})
 
 </script>

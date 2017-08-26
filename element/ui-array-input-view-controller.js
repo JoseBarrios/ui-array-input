@@ -12,11 +12,9 @@ class UIArrayInput extends HTMLElement{
 		this.model = model || {};
 		const view = document.importNode(uiArrayInputTemplate.content, true);
 		this.appendChild(view);
-
 		//SHADOW ROOT
 		//this.shadowRoot = this.attachShadow({mode: 'open'});
 		//this.shadowRoot.appendChild(view);
-
 	}
 
   connectedCallback() {
@@ -24,7 +22,6 @@ class UIArrayInput extends HTMLElement{
 		//this.$container = this.shadowRoot.querySelector('#ui-array-input-container');
 		//LIGHT DOM
 		this.$container = this.querySelector('#ui-array-input-container');
-
 		if(!this.model.value || !this.getAttribute('value')){
 			this.model.value = '';
 			this.setAttribute('value', '');
@@ -68,7 +65,6 @@ class UIArrayInput extends HTMLElement{
 	get shadowRoot(){return this._shadowRoot;}
 	set shadowRoot(value){ this._shadowRoot = value}
 
-
 	get value(){
 		let value = this.model.value;
 		return value;
@@ -90,12 +86,14 @@ class UIArrayInput extends HTMLElement{
 	_updateEvent(){
 		if(this.model.value !== [""]){
 			let value = {};
-			value.string = this.model.value.toString();
+			value.string = this.model.value.join('; and\n');
 			value.array = this.model.value;
-			console.log('VALUE', value)
+			console.log(value)
 			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
 		}
 	}
+
+	blurInput(e){ this._updateEvent(e); }
 
 	_updateRendering(){
 		//IF THIS.MODEL.value WE SHOULD CREATE ONE INPUT
@@ -117,7 +115,7 @@ class UIArrayInput extends HTMLElement{
 				input.classList.add('col-md-12')
 				input.classList.add('col-sm-12')
 				input.addEventListener('input', e => { this.editInput(e, index, false); })
-				input.addEventListener('blur', e => { this.editInput(e, index, true); })
+				input.addEventListener('blur', this.blurInput.bind(this));
 
 				let deleteButton = document.createElement('button');
 				deleteButton.addEventListener('click', e => { this.deleteInput(e); });
