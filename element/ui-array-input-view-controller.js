@@ -4,7 +4,7 @@ const uiArrayInputTemplate = uiArrayInputDocument.ownerDocument.querySelector('#
 class UIArrayInput extends HTMLElement{
 
 	static get observedAttributes(){
-		return ['placeholder', 'value', 'button-text'];
+		return ['placeholder', 'value', 'separator', 'button-text'];
 	}
 
   constructor(model){
@@ -44,7 +44,9 @@ class UIArrayInput extends HTMLElement{
 						}
 					}
 					catch(error){
-						console.warn('Warning: ui-array-input invalid value, replaced with empty array:', error)
+						//console.warn('Warning: ui-array-input invalid value, replaced with empty array:', error)
+						this.model.pending = newVal;
+						console.log('Trying separator', this.model.separator)
 						this.model[attrName] = [];
 						this.model[attrName].push('');
 					}
@@ -57,6 +59,16 @@ class UIArrayInput extends HTMLElement{
 
 			case 'button-text':
 				this.model.buttonText = newVal;
+				break;
+
+			case 'separator':
+				this.model.separator = newVal;
+				if(this.model.pending){
+					this.model.value = this.model.pending.split(newVal)
+				}
+				else if(typeof this.model.value === 'string') {
+					this.model.value = this.model.value.split(newVal)
+				}
 				break;
 
 			default:
@@ -155,7 +167,9 @@ class UIArrayInput extends HTMLElement{
 		this.setAttribute('value', JSON.stringify(this.model.value))
 		this._updateRendering();
 
+		//If empty input, and it's not last one, remove
 		this.$inputs = this.querySelectorAll('input');
+		let lastIndex = this.$inputs.length-1;
 		//this.$inputs = this.shadowRoot.querySelectorAll('input');
 
 		this.numInputs = this.$inputs.length-1;
