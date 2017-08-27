@@ -106,7 +106,8 @@ class UIArrayInput extends HTMLElement{
 	_updateEvent(){
 		if(this.model.value !== [""]){
 			let value = {};
-			value.string = this.model.value.join('; and\n');
+			let separator = this.model.separator || '\n'
+			value.string = this.model.value.join(separator);
 			value.array = this.model.value;
 			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
 		}
