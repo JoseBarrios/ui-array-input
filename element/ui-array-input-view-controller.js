@@ -46,7 +46,6 @@ class UIArrayInput extends HTMLElement{
 					catch(error){
 						//console.warn('Warning: ui-array-input invalid value, replaced with empty array:', error)
 						this.model.pending = newVal;
-						console.log('Trying separator', this.model.separator)
 						this.model[attrName] = [];
 						this.model[attrName].push('');
 					}
@@ -106,7 +105,7 @@ class UIArrayInput extends HTMLElement{
 	_updateEvent(){
 		if(this.model.value !== [""]){
 			let value = {};
-			let separator = this.model.separator || '\n'
+			let separator = this.model.separator || ';'
 			value.string = this.model.value.join(separator);
 			value.array = this.model.value;
 			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
