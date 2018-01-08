@@ -7,8 +7,8 @@ class UIArrayInput extends HTMLElement{
 		return ['placeholder', 'value', 'separator', 'button-text'];
 	}
 
-  constructor(model){
-    super();
+	constructor(model){
+		super();
 		this.model = model || {};
 		const view = document.importNode(uiArrayInputTemplate.content, true);
 		this.appendChild(view);
@@ -17,7 +17,7 @@ class UIArrayInput extends HTMLElement{
 		//this.shadowRoot.appendChild(view);
 	}
 
-  connectedCallback() {
+	connectedCallback() {
 		//SHADOW ROOT
 		//this.$container = this.shadowRoot.querySelector('#ui-array-input-container');
 		//LIGHT DOM
@@ -29,11 +29,11 @@ class UIArrayInput extends HTMLElement{
 		}
 
 		this._updateRendering();
-  }
+	}
 
-  disconnectedCallback() { console.log('disconnected'); }
+	disconnectedCallback() { console.log('disconnected'); }
 
-  attributeChangedCallback(attrName, oldVal, newVal) {
+	attributeChangedCallback(attrName, oldVal, newVal) {
 		switch(attrName){
 			case 'value':
 				if(newVal && newVal !== ''){
@@ -74,7 +74,7 @@ class UIArrayInput extends HTMLElement{
 				this.model[attrName] = newVal;
 		}
 		this._updateRendering();
-  }
+	}
 
 	get shadowRoot(){return this._shadowRoot;}
 	set shadowRoot(value){ this._shadowRoot = value}

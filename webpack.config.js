@@ -5,7 +5,7 @@ const config = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'element'),
-    filename: 'data-controller.js'
+    filename: 'ui-array-data-controller.js'
   },
 };
 
