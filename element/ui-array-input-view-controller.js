@@ -49,16 +49,6 @@ class UIArrayInput extends HTMLElement{
 				this.model.buttonText = newVal;
 				break;
 
-			case 'separator':
-				this.model.separator = newVal;
-				if(this.model.pending){
-					this.model.value = this.model.pending.split(newVal)
-				}
-				else if(typeof this.model.value === 'string') {
-					this.model.value = this.model.value.split(newVal)
-				}
-				break;
-
 			default:
 				this.model[attrName] = newVal;
 		}
@@ -92,8 +82,6 @@ class UIArrayInput extends HTMLElement{
 	_updateEvent(){
 		if(this.model.value !== [""]){
 			let value = {};
-			let separator = this.model.separator || ';'
-			value.string = this.model.value.join(separator);
 			value.array = this.model.value;
 			this.dispatchEvent(new CustomEvent('update', {detail: value, bubbles:false }));
 		}
@@ -171,12 +159,13 @@ class UIArrayInput extends HTMLElement{
 	deleteInput(e){
 		e.stopPropagation()
 		e.preventDefault();
+
 		let deleteButtons = this.querySelectorAll('.ui-array-input-item-delete');
 		let $inputs = this.querySelectorAll('input');
+
 		deleteButtons.forEach((deleteButton, index) => {
 			if(e.target === deleteButton){
 				this.model.value.splice(index,1);
-				$inputs[index].remove();
 				this._updateRendering();
 				this._updateEvent();
 			}
