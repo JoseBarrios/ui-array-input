@@ -1,22 +1,28 @@
 <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.1/webcomponents-lite.js'></script>-->
 <title> ui-array-input </title>
 <link rel='import' href='../element/index.html'>
-<link rel='import' href='../bower_components/view-json/view-json.html'>
 
 <body>
 	<div style="width:50%;background-color:white">
-		<ui-array-input></ui-array-input>
-  </div>
-	<div style="margin-left:50%;width:50%;background-color:#282c34; height:100%">
-		<view-json>{}<view-json>
-  </div>
+		<ui-array-input id="one"></ui-array-input>
+	</div>
+		<br>
+		<br>
+		<ui-array-input id="two" value="hello\nworld"></ui-array-input>
 </body>
 
 <script>
-const $arrayInput = document.querySelector('ui-array-input');
-const $viewJSON = document.querySelector('view-json');
-$arrayInput.addEventListener('update', (e)=>{
-	console.log('UPDATED ARRAY', e.detail)
-	$viewJSON.innerHTML = JSON.stringify(e.detail);
-})
+const $arrayInputOne = document.querySelector('#one');
+const $arrayInputTwo = document.querySelector('#two');
+
+//const exampleInput = ["Un Tequila","Dos Tequilas","Tres Tequilas","Floor"];
+const exampleInputOne = `Un Tequila. Dos Tequilas.
+Tres Tequilas.
+Floor`;
+
+const exampleInputTwo = "Un Tequila. Dos Tequilas.\nTres Tequilas.\nFloor.";
+
+$arrayInputOne.value = exampleInputOne;
+$arrayInputTwo.value = exampleInputTwo;
+
 </script>

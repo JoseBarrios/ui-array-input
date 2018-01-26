@@ -4,7 +4,7 @@ const uiArrayInputTemplate = uiArrayInputDocument.ownerDocument.querySelector('#
 class UIArrayInput extends HTMLElement{
 
 	static get observedAttributes(){
-		return ['placeholder', 'value', 'separator', 'button-text'];
+		return ['placeholder', 'value', 'button-text'];
 	}
 
 	constructor(model){
@@ -37,21 +37,10 @@ class UIArrayInput extends HTMLElement{
 		switch(attrName){
 			case 'value':
 				if(newVal && newVal !== ''){
-					try{
-						this.model[attrName] = JSON.parse(newVal);
-						if(!this.model[attrName].length){
-							this.model[attrName].push('');
-						}
-					}
-					catch(error){
-						//console.warn('Warning: ui-array-input invalid value, replaced with empty array:', error)
-						this.model.pending = newVal;
-						this.model[attrName] = [];
-						this.model[attrName].push('');
-					}
-				} else if(newVal === ''){
-					this.model[attrName] = [];
-					this.model[attrName].push('');
+					let inputArray = newVal.split("\n");
+					this.model[attrName] = inputArray;
+				} else {
+					this.model[attrName] = [''];
 				}
 				this._updateEvent();
 				break;
@@ -79,13 +68,11 @@ class UIArrayInput extends HTMLElement{
 	get shadowRoot(){return this._shadowRoot;}
 	set shadowRoot(value){ this._shadowRoot = value}
 
-	get value(){
-		let value = this.model.value;
-		return value;
-	}
+	get value(){ return this.model.value; }
 	set value(value){
-		this.model.value = value;
+		this.model.value = value.split('\n');
 		this.setAttribute('value', value)
+		this._updateEvent();
 	}
 
 	get buttonText(){return this.model.buttonText}
@@ -157,20 +144,18 @@ class UIArrayInput extends HTMLElement{
 			addButton.classList.add('ui-array-input-button-add');
 			addButton.innerHTML = this.model.buttonText || 'ADD ITEM';
 			this.$container.appendChild(addButton);
-		}
+;	}
 	}
 
 	addInput(e){
 		e.stopPropagation()
 		e.preventDefault();
-		this.model.value.push('');
-		this.setAttribute('value', JSON.stringify(this.model.value))
+		this.model.value.push('\n');
 		this._updateRendering();
 
 		//If empty input, and it's not last one, remove
 		this.$inputs = this.querySelectorAll('input');
 		let lastIndex = this.$inputs.length-1;
-		//this.$inputs = this.shadowRoot.querySelectorAll('input');
 
 		this.numInputs = this.$inputs.length-1;
 		let recentlyAddedInput = this.$inputs[this.numInputs]
