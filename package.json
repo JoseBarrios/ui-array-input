@@ -24,9 +24,7 @@
   },
   "homepage": "https://github.com/JoseBarrios/ui-array-input#readme",
   "devDependencies": {
-    "http-server": "^0.10.0",
-    "mocha": "^3.4.2",
-    "webpack": "^3.3.0"
+    "http-server": "^0.11.1"
   },
   "dependencies": {}
 }
